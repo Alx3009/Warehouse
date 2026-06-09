@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventori – WareHouse Pro</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="sidebar"></div>
+
+  <div id="main">
+    <div class="topbar">
+      <span class="topbar-title">Inventori &amp; Stok</span>
+      <div class="topbar-right">
+        <span id="topbar-date" class="topbar-date"></span>
+        <button class="btn-primary-wh" data-bs-toggle="modal" data-bs-target="#addItemModal">+ Tambah Item</button>
+      </div>
+    </div>
+
+    <div class="content-area">
+      <div class="section-title">Manajemen Inventori</div>
+      <div class="section-sub">Kelola semua item, lokasi rak, dan level stok gudang.</div>
+
+      <!-- Filter Bar -->
+      <div class="data-card mb-4">
+        <div style="padding:16px 20px;">
+          <div class="row g-2 align-items-end">
+            <div class="col-md-4">
+              <label class="form-label-wh">Cari Item</label>
+              <input type="text" class="form-control-wh" id="searchInput" placeholder="Nama item, SKU, kategori..." oninput="filterTable()" />
+            </div>
+            <div class="col-md-2">
+              <label class="form-label-wh">Kategori</label>
+              <select class="form-control-wh" id="catFilter" onchange="filterTable()">
+                <option value="">Semua</option>
+                <option>Packaging</option>
+                <option>Elektronik</option>
+                <option>Alat Tulis</option>
+                <option>Spare Part</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label-wh">Status Stok</label>
+              <select class="form-control-wh" id="statusFilter" onchange="filterTable()">
+                <option value="">Semua</option>
+                <option value="badge-ok">Normal</option>
+                <option value="badge-low">Hampir Habis</option>
+                <option value="badge-out">Habis</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label class="form-label-wh">Zona</label>
+              <select class="form-control-wh" id="zonaFilter" onchange="filterTable()">
+                <option value="">Semua Zona</option>
+                <option>Zona A</option>
+                <option>Zona B</option>
+                <option>Zona C</option>
+                <option>Zona D</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button class="btn-ghost w-100" onclick="resetFilters()">↺ Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Inventory Table -->
+      <div class="data-card">
+        <div class="data-card-header">
+          <span class="data-card-title">Daftar Item</span>
+          <span style="font-size:12px;color:var(--text-secondary);" id="itemCount">Menampilkan 10 item</span>
+        </div>
+        <div class="table-responsive">
+          <table class="wh-table" id="inventoryTable">
+            <thead>
+              <tr>
+                <th>SKU</th>
+                <th>Nama Item</th>
+                <th>Kategori</th>
+                <th>Stok Saat Ini</th>
+                <th>Min. Stok</th>
+                <th>Lokasi</th>
+                <th>Zona</th>
+                <th>Status</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="inventoryBody">
+            </tbody>
+          </table>
+        </div>
+        <div style="padding:14px 20px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:12px;color:var(--text-secondary);">Total: 10 item</span>
+          <div class="d-flex gap-2">
+            <button class="btn-ghost" style="padding:5px 12px;font-size:12px;">‹ Prev</button>
+            <button class="btn-ghost" style="padding:5px 12px;font-size:12px;background:rgba(59,130,246,0.15);color:var(--accent);border-color:var(--accent);">1</button>
+            <button class="btn-ghost" style="padding:5px 12px;font-size:12px;">2</button>
+            <button class="btn-ghost" style="padding:5px 12px;font-size:12px;">Next ›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Item Modal -->
+  <div class="modal fade" id="addItemModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">📦 Tambah Item Baru</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label-wh">Nama Item *</label>
+              <input type="text" class="form-control-wh" placeholder="Contoh: Kardus A4 Cokelat" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label-wh">SKU *</label>
+              <input type="text" class="form-control-wh" placeholder="Contoh: PKG-001" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label-wh">Kategori</label>
+              <select class="form-control-wh">
+                <option>Packaging</option>
+                <option>Elektronik</option>
+                <option>Alat Tulis</option>
+                <option>Spare Part</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label-wh">Stok Awal</label>
+              <input type="number" class="form-control-wh" placeholder="0" min="0" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label-wh">Minimum Stok</label>
+              <input type="number" class="form-control-wh" placeholder="50" min="0" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label-wh">Zona</label>
+              <select class="form-control-wh">
+                <option>Zona A</option>
+                <option>Zona B</option>
+                <option>Zona C</option>
+                <option>Zona D</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label-wh">Lokasi Rak</label>
+              <input type="text" class="form-control-wh" placeholder="Contoh: A-03" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label-wh">Satuan</label>
+              <select class="form-control-wh">
+                <option>pcs</option>
+                <option>roll</option>
+                <option>box</option>
+                <option>kg</option>
+                <option>liter</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label-wh">Keterangan</label>
+              <textarea class="form-control-wh" rows="2" placeholder="Deskripsi tambahan..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-ghost" data-bs-dismiss="modal">Batal</button>
+          <button class="btn-primary-wh" data-bs-dismiss="modal">💾 Simpan Item</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">✏️ Edit Stok</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label-wh">Item</label>
+              <input type="text" class="form-control-wh" id="editItemName" readonly style="opacity:0.6;" />
+            </div>
+            <div class="col-6">
+              <label class="form-label-wh">Stok Saat Ini</label>
+              <input type="number" class="form-control-wh" id="editStock" min="0" />
+            </div>
+            <div class="col-6">
+              <label class="form-label-wh">Min. Stok</label>
+              <input type="number" class="form-control-wh" id="editMin" min="0" />
+            </div>
+            <div class="col-6">
+              <label class="form-label-wh">Lokasi Rak</label>
+              <input type="text" class="form-control-wh" id="editLokasi" />
+            </div>
+            <div class="col-6">
+              <label class="form-label-wh">Zona</label>
+              <select class="form-control-wh" id="editZona">
+                <option>Zona A</option><option>Zona B</option><option>Zona C</option><option>Zona D</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-ghost" data-bs-dismiss="modal">Batal</button>
+          <button class="btn-primary-wh" data-bs-dismiss="modal">Simpan Perubahan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="sidebar.js"></script>
+  <script>
+    initSidebar('inventory');
+
+    const items = [
+      { sku:'PKG-001', name:'Kardus Cokelat Besar', cat:'Packaging', stock:12, min:200, loc:'A-03', zona:'Zona A', status:'badge-out' },
+      { sku:'PKG-002', name:'Bubble Wrap 50m', cat:'Packaging', stock:28, min:150, loc:'B-07', zona:'Zona B', status:'badge-low' },
+      { sku:'PKG-003', name:'Selotip Bening 2"', cat:'Packaging', stock:45, min:300, loc:'C-12', zona:'Zona C', status:'badge-low' },
+      { sku:'PKG-004', name:'Plastik Wrap 300m', cat:'Packaging', stock:320, min:100, loc:'A-05', zona:'Zona A', status:'badge-ok' },
+      { sku:'PKG-005', name:'Kardus A4 Cokelat', cat:'Packaging', stock:850, min:200, loc:'B-02', zona:'Zona B', status:'badge-ok' },
+      { sku:'ELK-001', name:'Kabel Ties 20cm', cat:'Elektronik', stock:2400, min:500, loc:'D-01', zona:'Zona D', status:'badge-ok' },
+      { sku:'ELK-002', name:'Label Stiker Putih A4', cat:'Elektronik', stock:180, min:100, loc:'C-08', zona:'Zona C', status:'badge-ok' },
+      { sku:'SPR-001', name:'Baut M8 x 25mm', cat:'Spare Part', stock:0, min:200, loc:'A-10', zona:'Zona A', status:'badge-out' },
+      { sku:'ATK-001', name:'Spidol Permanen Hitam', cat:'Alat Tulis', stock:95, min:50, loc:'D-04', zona:'Zona D', status:'badge-ok' },
+      { sku:'PKG-006', name:'Styrofoam Sheet 1cm', cat:'Packaging', stock:62, min:80, loc:'B-11', zona:'Zona B', status:'badge-low' },
+    ];
+
+    const stockLabel = { 'badge-ok': 'Normal', 'badge-low': 'Hampir Habis', 'badge-out': 'Habis' };
+    const unitMap = { 'Packaging': 'pcs', 'Elektronik': 'pcs', 'Spare Part': 'pcs', 'Alat Tulis': 'pcs' };
+
+    function renderTable(data) {
+      const tbody = document.getElementById('inventoryBody');
+      tbody.innerHTML = data.map((it, i) => {
+        const pct = it.min > 0 ? Math.min(100, Math.round(it.stock / it.min * 100)) : 100;
+        const barColor = it.status === 'badge-ok' ? 'var(--success)' : it.status === 'badge-low' ? 'var(--warning)' : 'var(--danger)';
+        return `<tr>
+          <td><code style="color:var(--accent);background:rgba(59,130,246,0.1);padding:2px 6px;border-radius:4px;font-size:12px;">${it.sku}</code></td>
+          <td><strong>${it.name}</strong></td>
+          <td><span style="font-size:11px;padding:2px 8px;border-radius:12px;background:rgba(148,163,184,0.1);color:var(--text-secondary);">${it.cat}</span></td>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <strong>${it.stock.toLocaleString()}</strong>
+              <div class="stock-bar" style="width:60px;">
+                <div class="stock-bar-fill" style="width:${pct}%;background:${barColor}"></div>
+              </div>
+            </div>
+          </td>
+          <td style="color:var(--text-secondary);">${it.min.toLocaleString()}</td>
+          <td><span style="font-family:monospace;color:var(--text-secondary);">Rak ${it.loc}</span></td>
+          <td style="color:var(--text-secondary);">${it.zona}</td>
+          <td><span class="badge-status ${it.status}">${stockLabel[it.status]}</span></td>
+          <td>
+            <div class="d-flex gap-1">
+              <button class="btn-icon" title="Edit" onclick="openEdit(${i})" data-bs-toggle="modal" data-bs-target="#editModal">✏️</button>
+              <button class="btn-icon" title="Hapus" onclick="deleteItem(${i})">🗑️</button>
+            </div>
+          </td>
+        </tr>`;
+      }).join('');
+      document.getElementById('itemCount').textContent = `Menampilkan ${data.length} item`;
+    }
+
+    function filterTable() {
+      const q = document.getElementById('searchInput').value.toLowerCase();
+      const cat = document.getElementById('catFilter').value;
+      const status = document.getElementById('statusFilter').value;
+      const zona = document.getElementById('zonaFilter').value;
+      const filtered = items.filter(it =>
+        (!q || it.name.toLowerCase().includes(q) || it.sku.toLowerCase().includes(q)) &&
+        (!cat || it.cat === cat) &&
+        (!status || it.status === status) &&
+        (!zona || it.zona === zona)
+      );
+      renderTable(filtered);
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('catFilter').value = '';
+      document.getElementById('statusFilter').value = '';
+      document.getElementById('zonaFilter').value = '';
+      renderTable(items);
+    }
+
+    function openEdit(i) {
+      const it = items[i];
+      document.getElementById('editItemName').value = it.name;
+      document.getElementById('editStock').value = it.stock;
+      document.getElementById('editMin').value = it.min;
+      document.getElementById('editLokasi').value = it.loc;
+      document.getElementById('editZona').value = it.zona;
+    }
+
+    function deleteItem(i) {
+      if (confirm(`Hapus item "${items[i].name}"?`)) {
+        items.splice(i, 1);
+        renderTable(items);
+      }
+    }
+
+    renderTable(items);
+  </script>
+</body>
+</html>

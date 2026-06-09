@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard – WareHouse Pro</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="style.css" rel="stylesheet" />
+</head>
+<body>
+  <div id="sidebar"></div>
+
+  <div id="main">
+    <div class="topbar">
+      <span class="topbar-title">Dashboard</span>
+      <div class="topbar-right">
+        <span id="topbar-date" class="topbar-date"></span>
+        <button class="btn-icon" title="Notifikasi">🔔</button>
+      </div>
+    </div>
+
+    <div class="content-area">
+      <div class="section-title">Selamat Datang, Ahmad 👋</div>
+      <div class="section-sub">Berikut ringkasan aktivitas gudang hari ini.</div>
+
+      <!-- Alert Stock Kritis -->
+      <div class="alert-wh alert-danger-wh mb-4">
+        <span style="font-size:18px;">⚠️</span>
+        <div>
+          <strong>3 item stok kritis!</strong> Segera lakukan pemesanan untuk: Kardus Cokelat Besar, Bubble Wrap 50m, Selotip Bening 2".
+          <a href="inventory.html" style="color:inherit;font-weight:700;"> Lihat Inventori →</a>
+        </div>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-sm-6 col-xl-3">
+          <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <div class="stat-label">Total SKU</div>
+                <div class="stat-value">1,248</div>
+                <div class="stat-change" style="color:var(--success)">▲ 12 item baru minggu ini</div>
+              </div>
+              <div class="stat-icon" style="background:rgba(59,130,246,0.15);color:var(--accent)">📦</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <div class="stat-label">Penerimaan Hari Ini</div>
+                <div class="stat-value">47</div>
+                <div class="stat-change" style="color:var(--success)">▲ 8 dari kemarin</div>
+              </div>
+              <div class="stat-icon" style="background:rgba(16,185,129,0.15);color:var(--success)">📥</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <div class="stat-label">Pengiriman Hari Ini</div>
+                <div class="stat-value">63</div>
+                <div class="stat-change" style="color:var(--warning)">▼ 5 dari kemarin</div>
+              </div>
+              <div class="stat-icon" style="background:rgba(245,158,11,0.15);color:var(--warning)">📤</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-xl-3">
+          <div class="stat-card">
+            <div class="d-flex justify-content-between align-items-start">
+              <div>
+                <div class="stat-label">Kapasitas Gudang</div>
+                <div class="stat-value">73%</div>
+                <div class="stat-change" style="color:var(--text-secondary)">2.190 / 3.000 slot</div>
+              </div>
+              <div class="stat-icon" style="background:rgba(139,92,246,0.15);color:#A78BFA">🏭</div>
+            </div>
+            <div class="stock-bar mt-3">
+              <div class="stock-bar-fill" style="width:73%;background:linear-gradient(90deg,var(--accent),#8B5CF6)"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <!-- Recent Inbound -->
+        <div class="col-lg-7">
+          <div class="data-card">
+            <div class="data-card-header">
+              <span class="data-card-title">📥 Penerimaan Terbaru</span>
+              <a href="inbound.html" class="btn-ghost" style="padding:5px 12px;font-size:12px;">Lihat Semua</a>
+            </div>
+            <div class="table-responsive">
+              <table class="wh-table">
+                <thead>
+                  <tr>
+                    <th>No. PO</th>
+                    <th>Supplier</th>
+                    <th>Item</th>
+                    <th>Qty</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code style="color:var(--accent);background:rgba(59,130,246,0.1);padding:2px 6px;border-radius:4px;">PO-2024-089</code></td>
+                    <td>PT. Sumber Makmur</td>
+                    <td>Kardus A4 Cokelat</td>
+                    <td><strong>500</strong> pcs</td>
+                    <td><span class="badge-status badge-done">Selesai</span></td>
+                  </tr>
+                  <tr>
+                    <td><code style="color:var(--accent);background:rgba(59,130,246,0.1);padding:2px 6px;border-radius:4px;">PO-2024-090</code></td>
+                    <td>CV. Indah Jaya</td>
+                    <td>Plastik Wrap 300m</td>
+                    <td><strong>20</strong> roll</td>
+                    <td><span class="badge-status badge-transit">Dalam Proses</span></td>
+                  </tr>
+                  <tr>
+                    <td><code style="color:var(--accent);background:rgba(59,130,246,0.1);padding:2px 6px;border-radius:4px;">PO-2024-091</code></td>
+                    <td>PT. Logistik Nusantara</td>
+                    <td>Selotip OPP 48mm</td>
+                    <td><strong>1.200</strong> pcs</td>
+                    <td><span class="badge-status badge-pending">Menunggu</span></td>
+                  </tr>
+                  <tr>
+                    <td><code style="color:var(--accent);background:rgba(59,130,246,0.1);padding:2px 6px;border-radius:4px;">PO-2024-092</code></td>
+                    <td>UD. Maju Terus</td>
+                    <td>Bubble Wrap 100m</td>
+                    <td><strong>15</strong> roll</td>
+                    <td><span class="badge-status badge-done">Selesai</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stock Kritis -->
+        <div class="col-lg-5">
+          <div class="data-card">
+            <div class="data-card-header">
+              <span class="data-card-title">⚠️ Stok Kritis</span>
+              <span style="font-size:11px;color:var(--danger);font-weight:600;">3 Item</span>
+            </div>
+            <div style="padding: 8px 0;">
+              <div style="padding:14px 20px;border-bottom:1px solid var(--border);">
+                <div class="d-flex justify-content-between mb-1">
+                  <span style="font-size:13px;font-weight:600;">Kardus Cokelat Besar</span>
+                  <span style="font-size:12px;color:var(--danger);font-weight:700;">12 / 200</span>
+                </div>
+                <div class="stock-bar">
+                  <div class="stock-bar-fill" style="width:6%;background:var(--danger)"></div>
+                </div>
+                <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Lokasi: Rak A-03</div>
+              </div>
+              <div style="padding:14px 20px;border-bottom:1px solid var(--border);">
+                <div class="d-flex justify-content-between mb-1">
+                  <span style="font-size:13px;font-weight:600;">Bubble Wrap 50m</span>
+                  <span style="font-size:12px;color:var(--warning);font-weight:700;">28 / 150</span>
+                </div>
+                <div class="stock-bar">
+                  <div class="stock-bar-fill" style="width:19%;background:var(--warning)"></div>
+                </div>
+                <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Lokasi: Rak B-07</div>
+              </div>
+              <div style="padding:14px 20px;">
+                <div class="d-flex justify-content-between mb-1">
+                  <span style="font-size:13px;font-weight:600;">Selotip Bening 2"</span>
+                  <span style="font-size:12px;color:var(--warning);font-weight:700;">45 / 300</span>
+                </div>
+                <div class="stock-bar">
+                  <div class="stock-bar-fill" style="width:15%;background:var(--warning)"></div>
+                </div>
+                <div style="font-size:11px;color:var(--text-secondary);margin-top:4px;">Lokasi: Rak C-12</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Kapasitas Zona -->
+          <div class="data-card mt-3">
+            <div class="data-card-header">
+              <span class="data-card-title">🏭 Kapasitas Per Zona</span>
+            </div>
+            <div style="padding:12px 20px;">
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span style="font-size:12px;width:60px;color:var(--text-secondary);">Zona A</span>
+                <div class="stock-bar flex-grow-1"><div class="stock-bar-fill" style="width:88%;background:var(--danger)"></div></div>
+                <span style="font-size:12px;color:var(--danger);font-weight:600;width:32px;text-align:right;">88%</span>
+              </div>
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span style="font-size:12px;width:60px;color:var(--text-secondary);">Zona B</span>
+                <div class="stock-bar flex-grow-1"><div class="stock-bar-fill" style="width:64%;background:var(--warning)"></div></div>
+                <span style="font-size:12px;color:var(--warning);font-weight:600;width:32px;text-align:right;">64%</span>
+              </div>
+              <div class="d-flex align-items-center gap-2 mb-2">
+                <span style="font-size:12px;width:60px;color:var(--text-secondary);">Zona C</span>
+                <div class="stock-bar flex-grow-1"><div class="stock-bar-fill" style="width:45%;background:var(--success)"></div></div>
+                <span style="font-size:12px;color:var(--success);font-weight:600;width:32px;text-align:right;">45%</span>
+              </div>
+              <div class="d-flex align-items-center gap-2">
+                <span style="font-size:12px;width:60px;color:var(--text-secondary);">Zona D</span>
+                <div class="stock-bar flex-grow-1"><div class="stock-bar-fill" style="width:31%;background:var(--success)"></div></div>
+                <span style="font-size:12px;color:var(--success);font-weight:600;width:32px;text-align:right;">31%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="sidebar.js"></script>
+  <script>initSidebar('dashboard');</script>
+</body>
+</html>
